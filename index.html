@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>맞춤형 여드름 피부 관리 가이드</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* 결과 창 스타일 */
+        #result {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            display: none; /* 기본적으로 숨김 */
+        }
+
+        .result-card {
+            background-color: #f9f9f9;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .result-card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        .result-card ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .bad-food {
+            border-left-color: #e74c3c;
+        }
+
+        .bad-food h3 {
+            color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>✨ 피부 타입별 맞춤 솔루션</h1>
+    <p class="subtitle">현재 여드름 상태를 선택하고 맞춤 식단과 생활 습관을 확인하세요.</p>
+
+    <div class="form-group">
+        <label for="acneType">현재 피부/여드름 상태를 선택하세요:</label>
+        <select id="acneType">
+            <option value="">-- 선택해주세요 --</option>
+            <option value="whitehead">좁쌀 여드름 (면포성 / 오돌토돌함)</option>
+            <option value="papule">붉은 여드름 (구진성 / 붉고 약간 통증 있음)</option>
+            <option value="pustule">화농성 여드름 (노란 고름이 차오름)</option>
+            <option value="cystic">결절성/낭종성 여드름 (크고 단단하며 통증 심함)</option>
+        </select>
+    </div>
+
+    <button onclick="generateAdvice()">맞춤 솔루션 보기</button>
+
+    <!-- 결과 출력 영역 -->
+    <div id="result">
+        <h2 id="resultTitle" style="text-align: center; color: #2c3e50;"></h2>
+        
+        <div class="result-card">
+            <h3>🥗 추천 식단 (좋은 음식)</h3>
+            <ul id="goodFood"></ul>
+        </div>
+
+        <div class="result-card bad-food">
+            <h3>🚫 피해야 할 음식</h3>
+            <ul id="badFood"></ul>
+        </div>
+
+        <div class="result-card">
+            <h3>🚴 추천 생활 습관 및 스킨케어</h3>
+            <ul id="lifestyle"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 여드름 상태별 데이터 정의
+    const acneData = {
+        whitehead: {
+            title: "좁쌀 여드름 (면포성 여드름) 솔루션",
+            goodFood: [
+                "비타민 A가 풍부한 식품 (당근, 시금치, 단호박): 피지 분비 조절",
+                "식이섬유가 많은 채소 및 잡곡: 장 건강 개선을 통한 독소 배출",
+                "충분한 물 섭취 (하루 1.5~2L): 피부 유수분 밸런스 유지"
+            ],
+            badFood: [
+                "고혈당 지수(GI) 음식 (흰 쌀밥, 빵, 과자, 액상과당): 피지선 자극",
+                "유제품 (우유, 치즈 등): 일부 사람에게 모공 막힘 유발 가능"
+            ],
+            lifestyle: [
+                "AHA / BHA 성분이 포함된 제품으로 주기적인 각질 관리 (주 1~2회)",
+                "수분 크림 위주의 모공을 막지 않는(Non-comedogenic) 화장품 사용",
+                "손으로 얼굴을 만지거나 억지로 짜지 않기"
+            ]
+        },
+        papule: {
+            title: "붉은 여드름 (구진성 여드름) 솔루션",
+            goodFood: [
+                "항염 작용을 하는 오메가-3 (등푸른 생선, 들기름, 견과류)",
+                "항산화 성분이 풍부한 베리류 (블루베리, 딸기 등)",
+                "녹차 (카테킨 성분이 피부 염증 완화에 도움)"
+            ],
+            badFood: [
+                "매운 음식 및 자극적인 조미료 (체온을 올려 염증 악화)",
+                "알코올(술): 체내 염증 반응 촉진",
+                "튀김류 및 트랜스지방이 많은 패스트푸드"
+            ],
+            lifestyle: [
+                "피부 열감을 낮춰주는 수분 팩 사용 (쿨링 케어)",
+                "자외선 차단제 필수 발라주기 (염증 후 착색 방지)",
+                "충분한 수면 (밤 11시 이전 취침 권장)"
+            ]
+        },
+        pustule: {
+            title: "화농성 여드름 (고름 형성) 솔루션",
+            goodFood: [
+                "아연이 풍부한 음식 (굴, 소고기, 계란 노른자, 박과 씨앗): 면역 및 상처 회복",
+                "프로바이오틱스 (유산균): 장내 염증 및 면역 조절",
+                "비타민 C가 풍부한 과일 (키위, 파프리카): 피부 재생 지원"
+            ],
+            badFood: [
+                "인공 가공식품 및 인스턴트 (몸 속 유해균 증식)",
+                "설탕이 많이 들어간 디저트 및 탄산음료",
+                "포화지방이 과도한 육류 지방 부위"
+            ],
+            lifestyle: [
+                "집에서 터뜨리지 말고 소독된 장비나 피부과 이용하기",
+                "베개 커버를 자주 세탁하고, 세안 시 수건으로 문지르지 않고 두드려 닦기",
+                "손 위생 철저히 관리하기"
+            ]
+        },
+        cystic: {
+            title: "결절성/낭종성 여드름 (중증 염증) 솔루션",
+            goodFood: [
+                "항염 및 항산화에 뛰어난 토마토 (리코펜 성분)",
+                "브로콜리 및 양배추 (체내 독소 배출 및 항염)",
+                "충분한 온수 섭취 (혈액순환 촉진)"
+            ],
+            badFood: [
+                "술과 담배 (염증을 극도로 악화시킴)",
+                "유제품 및 유청 단백질 파우더 (여드름 호르몬 자극 가능성 높음)",
+                "고지방/고나트륨 음식"
+            ],
+            lifestyle: [
+                "⚠️ 피부과 전문의 상담 및 약물 치료(이소트레티노인 등) 병행 권장",
+                "절대 손대거나 자가 압출 금지 (흉터 남을 확률 매우 높음)",
+                "스트레스 관리 (코르티솔 호르몬 감소를 위한 유산소 운동)"
+            ]
+        }
+    };
+
+    function generateAdvice() {
+        const type = document.getElementById("acneType").value;
+        const resultDiv = document.getElementById("result");
+
+        if (!type) {
+            alert("여드름 상태를 선택해 주세요!");
+            resultDiv.style.display = "none";
+            return;
+        }
+
+        const data = acneData[type];
+
+        // 제목 설정
+        document.getElementById("resultTitle").innerText = data.title;
+
+        // 리스트 업데이트 함수
+        const updateList = (elementId, items) => {
+            const listElement = document.getElementById(elementId);
+            listElement.innerHTML = "";
+            items.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                listElement.appendChild(li);
+            });
+        };
+
+        updateList("goodFood", data.goodFood);
+        updateList("badFood", data.badFood);
+        updateList("lifestyle", data.lifestyle);
+
+        // 결과 영역 표시
+        resultDiv.style.display = "block";
+    }
+</script>
+
+</body>
+</html>
